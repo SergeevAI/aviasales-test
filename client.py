@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import List
+from typing import List, Tuple
 
 from bs4 import BeautifulSoup, Tag
 
@@ -22,12 +22,8 @@ class Itinerary:
         return '-'.join([fl.source for fl in self.return_flights] + [self.return_flights[-1].destination]) \
             if self.return_flights else ''
 
-    def __repr__(self) -> str:
-        return f'{self.get_onward_route()}' + (f' - {self.get_return_route()}' if self.get_return_route() else '')
-
-    def get_route(self, route_name: str) -> 'Itinerary':
-        if str(self) == route_name:
-            return self
+    def get_onward_datetimes(self) -> Tuple[datetime, datetime]:
+        return self.onward_flights[0].departure_time, self.onward_flights[-1].arrival_time
 
 
 @dataclass
@@ -44,6 +40,11 @@ class Flight:
     number_of_stops: int
     fare_basis: str
     ticket_type: str
+
+    def __eq__(self, other):
+        if self.carrier_id == other.carrier_id and self.flight_number == other.flight_number:
+            return True
+        return False
 
 
 @dataclass
