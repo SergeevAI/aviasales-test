@@ -15,12 +15,19 @@ class Itinerary:
     def get_onward_route(self) -> str:
         """ String representation of onward route """
         return '-'.join([fl.source for fl in self.onward_flights] + [self.onward_flights[-1].destination]) \
-            if self.onward_flights else []
+            if self.onward_flights else ''
 
     def get_return_route(self) -> str:
         """ String representation of return route """
         return '-'.join([fl.source for fl in self.return_flights] + [self.return_flights[-1].destination]) \
-            if self.return_flights else []
+            if self.return_flights else ''
+
+    def __repr__(self) -> str:
+        return f'{self.get_onward_route()}' + (f' - {self.get_return_route()}' if self.get_return_route() else '')
+
+    def get_route(self, route_name: str) -> 'Itinerary':
+        if str(self) == route_name:
+            return self
 
 
 @dataclass
