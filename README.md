@@ -22,7 +22,8 @@
 
 
 ### Установка
-При выполнении задания использовался python 3.7, установленный через pyenv и pipenv
+При выполнении задания использовался python 3.7  
+Для создания виртуального окружения я использовал ([pyenv](https://github.com/pyenv/pyenv) + [pipenv](https://github.com/pypa/pipenv))
 ```
 git clone git@gitlab.com:SergeevAI/aviasales-test.git
 cd aviasales-test/
@@ -31,14 +32,14 @@ pipenv shell
 python main.py
 ```
 
-Используемые библиотеки:
+### Используемые библиотеки:
 ```
 [packages]
 lxml = "*"
 "beautifulsoup4" = "*"
 ```
 
-Коммиты:
+### Коммиты:
 
 596333c: Initial commit.
 

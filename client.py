@@ -41,10 +41,8 @@ class Flight:
     fare_basis: str
     ticket_type: str
 
-    def __eq__(self, other):
-        if self.carrier_id == other.carrier_id and self.flight_number == other.flight_number:
-            return True
-        return False
+    def __eq__(self, other) -> bool:
+        return self.carrier_id == other.carrier_id and self.flight_number == other.flight_number
 
 
 @dataclass
