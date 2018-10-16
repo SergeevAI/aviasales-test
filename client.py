@@ -82,7 +82,7 @@ class Price:
     price: float
 
 
-class DataAdapder(abc.ABC):
+class DataAdapter(abc.ABC):
     """
     Strategy pattern.
     AbstractClass for data adapter
@@ -103,7 +103,7 @@ class DataAdapder(abc.ABC):
         pass
 
 
-class FromFileAdapter(DataAdapder):
+class FromFileAdapter(DataAdapter):
     """
     Read XML from file. Concrete strategy to ViaComClient
     """
@@ -118,7 +118,7 @@ class ViaComClient:
     Parse incoming xml and return list of itineraries
     """
 
-    def __init__(self, adapter: DataAdapder):
+    def __init__(self, adapter: DataAdapter):
         self.adapter = adapter
         self.itineraries = self._get_itineraries()
 
