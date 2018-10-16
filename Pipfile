@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 lxml = "*"
 "beautifulsoup4" = "*"
+pytest = "*"
+pylint = "*"
+pytest-cov = "*"
+pytest-pylint = "*"
 
 [dev-packages]
 

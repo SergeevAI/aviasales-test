@@ -1,8 +1,8 @@
-from dataclasses import dataclass
+import abc
 from datetime import datetime
 from typing import List, Tuple
-
 from bs4 import BeautifulSoup, Tag
+from dataclasses import dataclass
 
 
 @dataclass
@@ -25,6 +25,35 @@ class Itinerary:
     def get_onward_datetimes(self) -> Tuple[datetime, datetime]:
         return self.onward_flights[0].departure_time, self.onward_flights[-1].arrival_time
 
+    def __str__(self) -> str:
+        """ String representation of Itinerary """
+        start_time, end_time = self.get_onward_datetimes()
+        result = f"{self.get_onward_route()} | {self.get_return_route()}\n" \
+            f"{start_time} - {end_time}\n" \
+            f"---------------------------\n" \
+            f"Flights:\n{self.get_flights_str()}" \
+            f"---------------------------\n" \
+            f"Prices:\n{self._get_prices_str()}" \
+            f"---------------------------"
+        return result
+
+    def __eq__(self, other):
+        return self.get_onward_route() == other.get_onward_route()
+
+    def _get_prices_str(self) -> str:
+        result = ''
+        for price in list(filter(lambda x: x.price_type == 'TotalAmount', self.prices)):
+            result += f'{price.flight_type}: {price.price} {price.currency}\n'
+        return result
+
+    def get_flights_str(self) -> str:
+        result = ''
+        for flight in self.onward_flights:
+            result += f'{flight.carrier_id}{flight.flight_number}\n'
+            result += f'{flight.source} - {flight.destination}\n'
+            result += f'{flight.departure_time} - {flight.arrival_time}\n'
+        return result
+
 
 @dataclass
 class Flight:
@@ -38,7 +67,6 @@ class Flight:
     arrival_time: datetime
     flight_class: str
     number_of_stops: int
-    fare_basis: str
     ticket_type: str
 
     def __eq__(self, other) -> bool:
@@ -54,14 +82,44 @@ class Price:
     price: float
 
 
+class DataAdapder(abc.ABC):
+    """
+    Strategy pattern.
+    AbstractClass for data adapter
+    """
+
+    def __init__(self, source):
+        """
+        :param source: Filename/Url/Other source to getting xml file
+        """
+        self.source = source
+
+    @abc.abstractmethod
+    def get_data(self) -> str:
+        """
+        Abstract method for getting data and return XML from via.com api
+        :return: XMl as a string
+        """
+        pass
+
+
+class FromFileAdapter(DataAdapder):
+    """
+    Read XML from file. Concrete strategy to ViaComClient
+    """
+    def get_data(self) -> str:
+        with open(self.source, 'r') as file:
+            return file.read()
+
+
 class ViaComClient:
     """
     Client for via.com API.
     Parse incoming xml and return list of itineraries
     """
 
-    def __init__(self, filename: str):
-        self.filename = filename
+    def __init__(self, adapter: DataAdapder):
+        self.adapter = adapter
         self.itineraries = self._get_itineraries()
 
     def _get_itineraries(self) -> List[Itinerary]:
@@ -70,8 +128,7 @@ class ViaComClient:
         :return: List of Itineraries
         """
         result = []
-        with open(self.filename) as file:
-            soup = BeautifulSoup(file, "xml")
+        soup = BeautifulSoup(self.adapter.get_data(), "xml")
 
         for flight in soup.PricedItineraries.children:
             if isinstance(flight, Tag):
@@ -106,7 +163,6 @@ class ViaComClient:
                             arrival_time=datetime.strptime(flight.ArrivalTimeStamp.text, '%Y-%m-%dT%H%M'),
                             flight_class=flight.Class.text,
                             number_of_stops=int(flight.NumberOfStops.text),
-                            fare_basis=flight.FareBasis.text,
                             ticket_type=flight.TicketType.text,
                         )
                     )

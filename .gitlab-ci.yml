@@ -1,0 +1,16 @@
+# This file is a template, and might need editing before it works on your project.
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/python
+image: python:latest
+
+
+before_script:
+  - python -V
+  - pip install pipenv
+  - pipenv install
+  - export VENV_HOME_DIR=$(pipenv --venv)
+  - source $VENV_HOME_DIR/bin/activate
+
+test:
+  script:
+    - source ./bin/run-tests.sh
