@@ -8,8 +8,9 @@ before_script:
   - python -V
   - pip install pipenv
   - pipenv install
+  - export VENV_HOME_DIR=$(pipenv --venv)
+  - source $VENV_HOME_DIR/bin/activate
 
 test:
   script:
-    - pipenv shell
     - source ./bin/run-tests.sh

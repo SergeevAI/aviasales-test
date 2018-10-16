@@ -1,6 +1,6 @@
 # pylint: disable=redefined-outer-name
 from datetime import datetime
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 import pytest
 
 from client import Itinerary, Flight, Price, ViaComClient
@@ -197,3 +197,10 @@ Prices:
 SingleAdult: 546.8 SGD
 ---------------------------"""
     assert str(first_xml_objects) == result
+
+
+def test_flights_eq(first_xml_objects):
+    flight = MagicMock(spec=Flight)
+    flight.carrier_id = 'AI'
+    flight.flight_number = 996
+    assert flight == first_xml_objects.onward_flights[0]
