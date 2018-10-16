@@ -8,8 +8,8 @@ before_script:
   - python -V
   - pip install pipenv
   - pipenv install
-  - pipenv shell
 
 test:
   script:
-  - source ./bin/run-tests.sh
+    - pipenv shell
+    - source ./bin/run-tests.sh
