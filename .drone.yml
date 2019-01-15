@@ -1,0 +1,12 @@
+kind: pipeline
+name: default
+
+steps:
+- name: test
+  image: python:latest
+  commands:
+  - pip install pipenv
+  - pipenv install
+  - export VENV_HOME_DIR=$(pipenv --venv)
+  - source $VENV_HOME_DIR/bin/activate
+  - source ./bin/run-tests.sh
