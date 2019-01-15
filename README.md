@@ -101,3 +101,7 @@ e558dfc: Fix gitlab ci config
 b1b9004: Fix gitlab ci config
  - Fix ci (Gitlab can't execute pipenv shell)
  - Add Flight __eq__ test
+ 
+ a4038c4: Add drone.io ci support (#1)
+ - Add drone.io ci support
+ - Remove unnecessary pass statement
