@@ -8,5 +8,5 @@ steps:
   - pip install pipenv
   - pipenv install
   - export VENV_HOME_DIR=$(pipenv --venv)
-  - source $VENV_HOME_DIR/bin/activate
-  - source ./bin/run-tests.sh
+  - sh $VENV_HOME_DIR/bin/activate
+  - sh ./bin/run-tests.sh
