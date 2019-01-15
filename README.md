@@ -1,3 +1,5 @@
+[![Build Status](https://sergeevai.tk/api/badges/SergeevAI/aviasales-test/status.svg)](https://sergeevai.tk/SergeevAI/aviasales-test)
+
 Тестовое задание для [Aviasales](https://www.aviasales.ru/)
 
 Задание:
