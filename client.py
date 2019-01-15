@@ -100,7 +100,6 @@ class DataAdapter(abc.ABC):
         Abstract method for getting data and return XML from via.com api
         :return: XMl as a string
         """
-        pass
 
 
 class FromFileAdapter(DataAdapter):
