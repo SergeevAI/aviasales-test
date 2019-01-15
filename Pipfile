@@ -17,4 +17,4 @@ pytest-pylint = "*"
 python_version = "3.7"
 
 [scripts]
-test = "py.test ./ -v --pylint --pylint-j 0 --pylint-rcfile=./pylintrc --cov ./ && pytest"
+test = "py.test ./ -v --pylint --pylint-j 0 --pylint-rcfile=./pylintrc --cov ./"
