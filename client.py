@@ -1,8 +1,8 @@
 import abc
 from datetime import datetime
 from typing import List, Tuple
-from bs4 import BeautifulSoup, Tag
 from dataclasses import dataclass
+from bs4 import BeautifulSoup, Tag
 
 
 @dataclass
