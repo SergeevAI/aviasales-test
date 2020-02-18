@@ -20,4 +20,4 @@ jobs:
         pipenv install
     - name: Tests
       run: |
-        pipenv run tests
+        pipenv run test
